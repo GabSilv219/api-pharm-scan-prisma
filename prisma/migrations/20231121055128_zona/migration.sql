@@ -1,14 +1,4 @@
 -- CreateTable
-CREATE TABLE "zonas" (
-    "id" SERIAL NOT NULL,
-    "nome" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "zonas_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "postos" (
     "id" SERIAL NOT NULL,
     "nome" TEXT NOT NULL,
@@ -20,7 +10,7 @@ CREATE TABLE "postos" (
     "numero" TEXT NOT NULL,
     "cidade" TEXT NOT NULL,
     "estado" TEXT NOT NULL,
-    "zonaId" INTEGER NOT NULL,
+    "zona" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -43,13 +33,7 @@ CREATE TABLE "medicamentos" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "zonas_nome_key" ON "zonas"("nome");
-
--- CreateIndex
 CREATE UNIQUE INDEX "postos_email_key" ON "postos"("email");
-
--- AddForeignKey
-ALTER TABLE "postos" ADD CONSTRAINT "postos_zonaId_fkey" FOREIGN KEY ("zonaId") REFERENCES "zonas"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "medicamentos" ADD CONSTRAINT "medicamentos_postoId_fkey" FOREIGN KEY ("postoId") REFERENCES "postos"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

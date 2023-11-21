@@ -66,22 +66,20 @@ export const getAllPostos = async (req: Request, res: Response) => {
 
 export const SignUp = async (req: Request, res: Response) => {
   try {
-    const { nome, email, cep, bairro, rua, numero, cidade, estado, senha, confirmarSenha } = req.body;
-    const { zonaId } = req.params;
+    const { nome, email, cep, bairro, rua, numero, cidade, estado, zona, senha, confirmarSenha } = req.body;
 
-    const zona = await prismaClient.zona.findUnique({where: {id: Number(zonaId)}})
-
-    if(!zona){
-      return res.status(401).json({error: "Zona não encontrada!"});
-    }
-
+    
     // validations
     if (!nome) {
       return res.status(422).json({ msg: "O nome é obrigatório!" });
     }
-
+    
     if (!email) {
       return res.status(422).json({ msg: "O email é obrigatório!" });
+    }
+
+    if(!zona){
+      return res.status(401).json({error: "A Zona é obrigatória!"});
     }
 
     if (!senha) {
@@ -112,7 +110,7 @@ export const SignUp = async (req: Request, res: Response) => {
       numero,
       cidade,
       estado,
-      zonaId: Number(zonaId),
+      zona,
       senha: senhaHash,
     }});
 
@@ -124,8 +122,8 @@ export const SignUp = async (req: Request, res: Response) => {
   
 export const updatePosto = async (req: Request, res: Response) => {
   try {
-    const { nome, email, cep, bairro, rua, numero, cidade, estado, senha, confirmarSenha } = req.body;
-    const { id, zonaId } = req.params;
+    const { nome, email, cep, bairro, rua, numero, cidade, estado, zona, senha, confirmarSenha } = req.body;
+    const { id } = req.params;
 
     let posto = await prismaClient.posto.findUnique({where: { id: Number(id) }});
     
@@ -147,8 +145,8 @@ export const updatePosto = async (req: Request, res: Response) => {
         numero,
         cidade,
         estado,
-        senha: senhaHash,
-        zonaId: Number(zonaId),
+        zona,
+        senha: senhaHash
       },
     });
 
