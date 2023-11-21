@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Zona {
+  id        Int      @id @default(autoincrement())
+  nome      String   @unique
+  postos    Posto[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("zonas")
+}
+
+model Posto {
+  id           Int           @id @default(autoincrement())
+  nome         String
+  email        String        @unique
+  senha        String
+  cep          String
+  bairro       String
+  rua          String
+  numero       String
+  cidade       String
+  estado       String
+  medicamentos Medicamento[]
+  zonaId       Int
+  zona         Zona          @relation(fields: [zonaId], references: [id])
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("postos")
+}
+
+model Medicamento {
+  id                      Int      @id @default(autoincrement())
+  nome                    String
+  concentracao_composicao String
+  forma_farmaceutica      String
+  quantidade              String
+  status                  String
+  postoId                 Int
+  posto                   Posto    @relation(fields: [postoId], references: [id])
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  @@map("medicamentos")
+}
