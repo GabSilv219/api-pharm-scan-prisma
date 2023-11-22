@@ -6,21 +6,7 @@ export const getMedicamento = async(req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const medicamento = await prismaClient.medicamento.findUnique({where: {id: Number(id)}, 
-      include: {
-        posto: {
-          select: {
-            nome: true,
-            cep: true,
-            bairro: true,
-            rua: true,
-            numero: true,
-            cidade: true,
-            estado: true
-          }
-        }
-      }
-    });
+    const medicamento = await prismaClient.medicamento.findUnique({where: {id: Number(id)}, include: {posto: true}});
     
     if(!medicamento){
       return res.status(401).json({error: "Medicamento não encontrado!"});
@@ -34,21 +20,7 @@ export const getMedicamento = async(req: Request, res: Response) => {
 
 export const getAllMedicamentos = async (req: Request, res: Response) => {
   try {
-    const medicamento = await prismaClient.medicamento.findMany({
-      include: {
-        posto: {
-          select: {
-            nome: true,
-            cep: true,
-            bairro: true,
-            rua: true,
-            numero: true,
-            cidade: true,
-            estado: true
-          }
-        }
-      }
-    });
+    const medicamento = await prismaClient.medicamento.findMany({include: {posto: true}});
     return res.status(200).json(medicamento);
   } catch (error) {
     console.log(error);
