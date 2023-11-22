@@ -42,10 +42,6 @@ export const registerZone = async (req: Request, res: Response) => {
       return res.status(422).json({error: "Informar o nome é obrigatório!"})
     }
 
-    if(!status){
-      return res.status(422).json({error: "Informar o status é obrigatório!"})
-    }
-
     zona = await prismaClient.zona.create({
       data: {
         nome,
