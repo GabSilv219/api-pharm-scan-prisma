@@ -10,6 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Zona {
+  id        Int      @id @default(autoincrement())
+  nome      String   @unique
+  postos    Posto[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("zonas")
+}
+
 model Posto {
   id           Int           @id @default(autoincrement())
   nome         String
@@ -21,8 +31,9 @@ model Posto {
   numero       String
   cidade       String
   estado       String
-  zona         String
   medicamentos Medicamento[]
+  zonaId       Int
+  zona         Zona          @relation(fields: [zonaId], references: [id])
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 
