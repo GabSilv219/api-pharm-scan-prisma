@@ -20,7 +20,7 @@ export const getZone = async(req: Request, res: Response) => {
     })
 
     if(!zona){
-      return res.status(401).json({error: "Região não encontrada!"});
+      return res.status(401).json({error: "Região não encontrada!!"});
     }
 
     return res.status(200).json(zona);
