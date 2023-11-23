@@ -5,7 +5,16 @@ export const getZone = async(req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const zona = await prismaClient.zona.findUnique({where: {id: Number(id)}, include: {postos: true}})
+    const zona = await prismaClient.zona.findUnique({where: {id: Number(id)}, include: {postos: {
+      select: {
+        nome: true,
+        cep: true,
+        bairro: true,
+        rua: true,
+        numero: true,
+        medicamentos: true
+      }
+    }}})
 
     if(!zona){
       return res.status(401).json({error: "Região não encontrada!!"});
@@ -19,7 +28,16 @@ export const getZone = async(req: Request, res: Response) => {
 
 export const getAllZones = async (req: Request, res: Response) => {
   try {
-    const zona = await prismaClient.zona.findMany({include: {postos: true}});
+    const zona = await prismaClient.zona.findMany({include: {postos: {
+      select: {
+        nome: true,
+        cep: true,
+        bairro: true,
+        rua: true,
+        numero: true,
+        medicamentos: true
+      }
+    }}});
     return res.status(200).json(zona);
   } catch (error) {
     console.log(error);
@@ -29,7 +47,7 @@ export const getAllZones = async (req: Request, res: Response) => {
 
 export const registerZone = async (req: Request, res: Response) => {
   try {
-    const { nome, status } = req.body;
+    const { nome } = req.body;
 
     let zona = await prismaClient.zona.findUnique({where: {nome}});
 
@@ -44,8 +62,7 @@ export const registerZone = async (req: Request, res: Response) => {
 
     zona = await prismaClient.zona.create({
       data: {
-        nome,
-        status,
+        nome
       }
     });
 
@@ -57,7 +74,7 @@ export const registerZone = async (req: Request, res: Response) => {
 
 export const updateZone = async (req: Request, res: Response) => {
   try {
-    const { nome, status } = req.body;
+    const { nome } = req.body;
     const { id } = req.params;
 
     let zona = await prismaClient.zona.findUnique({where: { id: Number(id) }});
@@ -70,7 +87,6 @@ export const updateZone = async (req: Request, res: Response) => {
       where: {id: Number(id)},
       data: {
         nome,
-        status
       },
     });
 
