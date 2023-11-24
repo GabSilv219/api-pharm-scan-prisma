@@ -20,6 +20,7 @@ CREATE TABLE "postos" (
     "numero" TEXT NOT NULL,
     "cidade" TEXT NOT NULL,
     "estado" TEXT NOT NULL,
+    "localizacao" TEXT NOT NULL,
     "zonaId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

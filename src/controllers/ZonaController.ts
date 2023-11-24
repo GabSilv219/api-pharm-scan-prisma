@@ -12,6 +12,7 @@ export const getZone = async(req: Request, res: Response) => {
         bairro: true,
         rua: true,
         numero: true,
+        localizacao: true,
         medicamentos: true
       }
     }}})
@@ -35,6 +36,7 @@ export const getAllZones = async (req: Request, res: Response) => {
         bairro: true,
         rua: true,
         numero: true,
+        localizacao: true,
         medicamentos: true
       }
     }}});

@@ -31,6 +31,7 @@ model Posto {
   numero       String
   cidade       String
   estado       String
+  localizacao  String
   medicamentos Medicamento[]
   zonaId       Int
   zona         Zona          @relation(fields: [zonaId], references: [id])

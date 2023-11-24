@@ -66,7 +66,7 @@ export const getAllPostos = async (req: Request, res: Response) => {
 
 export const SignUp = async (req: Request, res: Response) => {
   try {
-    const { nome, email, cep, bairro, rua, numero, cidade, estado, senha, confirmarSenha } = req.body;
+    const { nome, email, cep, bairro, rua, numero, cidade, estado, localizacao, senha, confirmarSenha } = req.body;
     const { zonaId } = req.params;
 
     const zona = await prismaClient.zona.findUnique({where: {id: Number(zonaId)}})
@@ -116,6 +116,7 @@ export const SignUp = async (req: Request, res: Response) => {
       numero,
       cidade,
       estado,
+      localizacao,
       senha: senhaHash,
       zonaId: Number(zonaId),
     }});
@@ -128,7 +129,7 @@ export const SignUp = async (req: Request, res: Response) => {
   
 export const updatePosto = async (req: Request, res: Response) => {
   try {
-    const { nome, email, cep, bairro, rua, numero, cidade, estado, senha, confirmarSenha } = req.body;
+    const { nome, email, cep, bairro, rua, numero, cidade, estado, localizacao, senha, confirmarSenha } = req.body;
     const { id, zonaId } = req.params;
 
     let posto = await prismaClient.posto.findUnique({where: { id: Number(id) }});
@@ -151,6 +152,7 @@ export const updatePosto = async (req: Request, res: Response) => {
         numero,
         cidade,
         estado,
+        localizacao,
         senha: senhaHash,
         zonaId: Number(zonaId),
       },
